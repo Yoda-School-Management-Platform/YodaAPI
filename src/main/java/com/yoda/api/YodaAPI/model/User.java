@@ -8,7 +8,7 @@ public class User {
 
     @Id
     protected long id;
-    protected String[] name;
+    protected String name;
 
     public User() {
     }
@@ -17,7 +17,7 @@ public class User {
         return id;
     }
 
-    public String[] getName() {
+    public String getName() {
         return name;
     }
 }
