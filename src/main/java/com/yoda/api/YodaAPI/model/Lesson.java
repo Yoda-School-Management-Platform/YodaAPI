@@ -4,14 +4,14 @@ import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 
 @NodeEntity
-public class TimetableEntry {
+public class Lesson {
 
     @Id
     private long id;
     private String type;
     private String text;
 
-    public TimetableEntry() {
+    public Lesson() {
     }
 
     public long getId() {

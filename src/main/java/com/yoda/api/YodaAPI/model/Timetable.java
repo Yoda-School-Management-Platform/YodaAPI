@@ -14,13 +14,13 @@ public class Timetable {
     private String name;
 
     @Relationship(type = "CONTAINS", direction = Relationship.INCOMING)
-    private List<TimetableEntry> entrys;
+    private List<Lesson> entrys;
 
     public long getId() {
         return id;
     }
 
-    public List<TimetableEntry> getEntrys() {
+    public List<Lesson> getEntrys() {
         return entrys;
     }
 

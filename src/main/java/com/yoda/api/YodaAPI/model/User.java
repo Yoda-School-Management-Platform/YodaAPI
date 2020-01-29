@@ -1,16 +1,45 @@
 package com.yoda.api.YodaAPI.model;
 
+import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
+import org.neo4j.ogm.annotation.Property;
 
 @NodeEntity
 public class User {
 
-    @Id
-    protected long id;
-    protected String name;
+    @Id @GeneratedValue
+    private long id;
+
+    @Property("username")
+    private String username;
+
+    @Property("password")
+    private String password;
+
+    @Property("role")
+    private String role;
+
+    @Property("enabled")
+    private boolean enabled;
 
     public User() {
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.username = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public long getId() {
@@ -18,6 +47,22 @@ public class User {
     }
 
     public String getName() {
-        return name;
+        return username;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

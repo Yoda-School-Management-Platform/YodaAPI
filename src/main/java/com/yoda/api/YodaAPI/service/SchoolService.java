@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SchoolService {
-    @Autowired
+   @Autowired
     SchoolRepository schoolRepository;
 
     public School createSchool(String name, String password){
