@@ -70,6 +70,12 @@
 			<artifactId>neo4j-ogm-embedded-driver</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.neo4j</groupId>
+			<artifactId>neo4j-jdbc-driver</artifactId>
+			<version>RELEASE</version>
+		</dependency>
+
 		<!-- add this dependency if you want to use the HTTP driver -->
 		<dependency>
 			<groupId>org.neo4j</groupId>
