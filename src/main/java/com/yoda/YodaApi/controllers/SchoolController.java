@@ -44,6 +44,12 @@ public class SchoolController {
                     .body(new MessageResponse("Error: Name is already taken!"));
         }
 
+        if (userRepository.existsByEmail(schoolRegisterRequest.getSuperuser_email())){
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Email is already taken!"));
+        }
+
         School school = new School (schoolRegisterRequest.getName(),
                                     schoolRegisterRequest.getEmail(),
                                     schoolRegisterRequest.getStreet(),

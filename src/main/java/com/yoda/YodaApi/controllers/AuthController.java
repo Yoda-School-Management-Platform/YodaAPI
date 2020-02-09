@@ -68,13 +68,21 @@ public class AuthController {
 												 userDetails.getId(), 
 												 userDetails.getUsername(), 
 												 userDetails.getEmail(), 
-												 roles));
+												 roles,
+												 userDetails.getSchoolName()));
 	}
 
 	@PostMapping("/register")
 	@PreAuthorize("hasRole('SUPERUSER')")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+
+		if(!schoolRepository.existsByName(signUpRequest.getSchoolName())){
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Error: School doesn't exist!"));
+		}
+
+		if (userRepository.existsByUsernameAndSchool(signUpRequest.getUsername(),schoolRepository.findSchoolByName(signUpRequest.getSchoolName()))) {
 			return ResponseEntity
 					.badRequest()
 					.body(new MessageResponse("Error: Username is already taken!"));

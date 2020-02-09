@@ -9,13 +9,15 @@ public class JwtResponse {
 	private String username;
 	private String email;
 	private List<String> roles;
+	private String schoolName;
 
-	public JwtResponse(String accessToken, Long id, String username, String email, List<String> roles) {
+	public JwtResponse(String accessToken, Long id, String username, String email, List<String> roles, String schoolName) {
 		this.token = accessToken;
 		this.id = id;
 		this.username = username;
 		this.email = email;
 		this.roles = roles;
+		this.schoolName = schoolName;
 	}
 
 	public String getAccessToken() {
@@ -60,5 +62,13 @@ public class JwtResponse {
 
 	public List<String> getRoles() {
 		return roles;
+	}
+
+	public String getSchoolName() {
+		return schoolName;
+	}
+
+	public void setSchoolName(String schoolName) {
+		this.schoolName = schoolName;
 	}
 }

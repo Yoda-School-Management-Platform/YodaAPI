@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/v1/test")
@@ -31,5 +33,17 @@ public class TestController {
 	@PreAuthorize("hasRole('SUPERUSER')")
 	public String superuserAccess() {
 		return "SUPERUSER";
+	}
+
+	@GetMapping("/getRole")
+	public String getRole(HttpServletRequest request){
+		if (request.isUserInRole("APPRENTICE")){
+			return "You are logged in as role: APPRENTICE";
+		} else if (request.isUserInRole("TEACHER")){
+			return "You are logged in as role: TEACHER";
+		} else if (request.isUserInRole("SUPERUSER")){
+			return "You are logged in as role: SUPERUSER";
+		}
+		return "You are not logged in!";
 	}
 }

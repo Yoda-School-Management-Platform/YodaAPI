@@ -9,6 +9,9 @@ public class LoginRequest {
 	@NotBlank
 	private String password;
 
+	@NotBlank
+	private String schoolName;
+
 	public String getUsername() {
 		return username;
 	}
@@ -23,5 +26,13 @@ public class LoginRequest {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getSchoolName() {
+		return schoolName;
+	}
+
+	public void setSchoolName(String schoolName) {
+		this.schoolName = schoolName;
 	}
 }

@@ -44,7 +44,7 @@ public class SchoolRegisterRequest {
     private String superuser_name;
 
     @NotBlank
-    @Size(max = 64)
+    @Size(min = 9, max = 128)
     private String superuser_password;
 
     @NotBlank

@@ -16,21 +16,23 @@ public class SignupRequest {
     @Size(max = 50)
     @Email
     private String email;
-    
+
     private Set<String> role;
     
     @NotBlank
-    @Size(min = 6, max = 40)
+    @Size(min = 6, max = 128)
     private String password;
 
-    private String school_name;
+    @NotBlank
+    @Size(max = 50)
+    private String schoolName;
 
     public String getSchoolName() {
-        return school_name;
+        return schoolName;
     }
 
     public void setSchoolName(String schoolName) {
-        this.school_name = schoolName;
+        this.schoolName = schoolName;
     }
 
     public String getUsername() {
