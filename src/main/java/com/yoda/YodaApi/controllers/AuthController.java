@@ -8,11 +8,13 @@ import com.yoda.YodaApi.payload.request.SignupRequest;
 import com.yoda.YodaApi.payload.response.JwtResponse;
 import com.yoda.YodaApi.payload.response.MessageResponse;
 import com.yoda.YodaApi.repository.RoleRepository;
+import com.yoda.YodaApi.repository.SchoolRepository;
 import com.yoda.YodaApi.repository.UserRepository;
 import com.yoda.YodaApi.security.jwt.JwtUtils;
 import com.yoda.YodaApi.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,13 +30,16 @@ import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/v1/user/auth")
 public class AuthController {
 	@Autowired
     AuthenticationManager authenticationManager;
 
 	@Autowired
 	UserRepository userRepository;
+
+	@Autowired
+	SchoolRepository schoolRepository;
 
 	@Autowired
 	RoleRepository roleRepository;
@@ -45,7 +50,7 @@ public class AuthController {
 	@Autowired
 	JwtUtils jwtUtils;
 
-	@PostMapping("/signin")
+	@PostMapping("/token")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
 		Authentication authentication = authenticationManager.authenticate(
@@ -66,7 +71,8 @@ public class AuthController {
 												 roles));
 	}
 
-	@PostMapping("/signup")
+	@PostMapping("/register")
+	@PreAuthorize("hasRole('SUPERUSER')")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
 			return ResponseEntity
@@ -83,34 +89,37 @@ public class AuthController {
 		// Create new user's account
 		User user = new User(signUpRequest.getUsername(), 
 							 signUpRequest.getEmail(),
-							 encoder.encode(signUpRequest.getPassword()));
+							 encoder.encode(signUpRequest.getPassword()),
+							 schoolRepository.findSchoolByName(signUpRequest.getSchoolName()));
 
 		Set<String> strRoles = signUpRequest.getRole();
 		Set<Role> roles = new HashSet<>();
 
+
 		if (strRoles == null) {
-			Role studentRole = roleRepository.findByName(ERole.ROLE_STUDENT)
-					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-			roles.add(studentRole);
+			throw new RuntimeException("Error: Role is not found.");
 		} else {
 			strRoles.forEach(role -> {
 				switch (role) {
-				case "admin":
-					Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+				case "superuser":
+					Role superuserRole = roleRepository.findByName(ERole.ROLE_SUPERUSER)
 							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					roles.add(adminRole);
+					roles.add(superuserRole);
 
 					break;
-				case "mod":
-					Role studentRole = roleRepository.findByName(ERole.ROLE_STUDENT)
+				case "apprentice":
+					Role apprenticeRole = roleRepository.findByName(ERole.ROLE_APPRENTICE)
 							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					roles.add(studentRole);
+					roles.add(apprenticeRole);
 
 					break;
-				default:
+				case "teacher":
 					Role teacherRole = roleRepository.findByName(ERole.ROLE_TEACHER)
 							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 					roles.add(teacherRole);
+					break;
+				default:
+					throw new RuntimeException("Error: Role is not found.");
 				}
 			});
 		}

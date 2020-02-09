@@ -1,5 +1,8 @@
 package com.yoda.YodaApi.models;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -8,10 +11,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(	name = "users", 
+@Table(	name = "s_users",
 		uniqueConstraints = { 
 			@UniqueConstraint(columnNames = "username"),
-			@UniqueConstraint(columnNames = "email") 
+			@UniqueConstraint(columnNames = "email")
 		})
 public class User {
 	@Id
@@ -32,12 +35,23 @@ public class User {
 	private String password;
 
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(	name = "user_roles", 
-				joinColumns = @JoinColumn(name = "user_id"), 
+	@JoinTable(	name = "s_user_roles",
+				joinColumns = @JoinColumn(name = "user_id"),
 				inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "s_id")
+	private School school;
+
 	public User() {
+	}
+
+	public User(String username, String email, String password, School school) {
+		this.username = username;
+		this.email = email;
+		this.password = password;
+		this.school = school;
 	}
 
 	public User(String username, String email, String password) {
@@ -84,5 +98,13 @@ public class User {
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+
+	public School getSchool() {
+		return school;
+	}
+
+	public void setSchool(School school) {
+		this.school = school;
 	}
 }

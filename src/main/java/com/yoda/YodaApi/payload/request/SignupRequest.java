@@ -1,5 +1,7 @@
 package com.yoda.YodaApi.payload.request;
 
+import com.yoda.YodaApi.models.School;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -20,7 +22,17 @@ public class SignupRequest {
     @NotBlank
     @Size(min = 6, max = 40)
     private String password;
-  
+
+    private String school_name;
+
+    public String getSchoolName() {
+        return school_name;
+    }
+
+    public void setSchoolName(String schoolName) {
+        this.school_name = schoolName;
+    }
+
     public String getUsername() {
         return username;
     }

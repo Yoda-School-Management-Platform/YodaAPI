@@ -3,7 +3,7 @@ package com.yoda.YodaApi.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "s_roles")
 public class Role {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

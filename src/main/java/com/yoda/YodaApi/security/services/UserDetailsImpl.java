@@ -1,5 +1,6 @@
 package com.yoda.YodaApi.security.services;
 
+import com.yoda.YodaApi.models.School;
 import com.yoda.YodaApi.models.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,6 +25,8 @@ public class UserDetailsImpl implements UserDetails {
 	private String password;
 
 	private Collection<? extends GrantedAuthority> authorities;
+
+	private School school;
 
 	public UserDetailsImpl(Long id, String username, String email, String password,
 			Collection<? extends GrantedAuthority> authorities) {
