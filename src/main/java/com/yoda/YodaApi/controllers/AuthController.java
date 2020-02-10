@@ -31,6 +31,7 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/v1/user/auth")
+
 public class AuthController {
 	@Autowired
     AuthenticationManager authenticationManager;
@@ -58,7 +59,8 @@ public class AuthController {
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtUtils.generateJwtToken(authentication);
-		
+
+
 		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();		
 		List<String> roles = userDetails.getAuthorities().stream()
 				.map(item -> item.getAuthority())
