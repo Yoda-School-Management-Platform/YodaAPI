@@ -44,7 +44,7 @@ public class SchoolController {
                     .body(new MessageResponse("Error: Name is already taken!"));
         }
 
-        if (userRepository.existsByEmail(schoolRegisterRequest.getSuperuser_email())){
+        if (userRepository.existsByEmail(schoolRegisterRequest.getSuperuserEmail())){
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Email is already taken!"));
@@ -59,9 +59,9 @@ public class SchoolController {
                                     schoolRegisterRequest.getState(),
                                     schoolRegisterRequest.getCountry());
 
-        User superuser = new User (schoolRegisterRequest.getSuperuser_name(),
-                                   schoolRegisterRequest.getSuperuser_email(),
-                                   encoder.encode(schoolRegisterRequest.getSuperuser_password()),
+        User superuser = new User (schoolRegisterRequest.getSuperuserName(),
+                                   schoolRegisterRequest.getSuperuserEmail(),
+                                   encoder.encode(schoolRegisterRequest.getSuperuserPassword()),
                                    school);
 
         Set<Role> roles = new HashSet<>();

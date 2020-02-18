@@ -2,7 +2,9 @@ package com.yoda.YodaApi.security;
 
 import com.yoda.YodaApi.security.jwt.AuthEntryPointJwt;
 import com.yoda.YodaApi.security.jwt.AuthTokenFilter;
-import com.yoda.YodaApi.security.services.UserDetailsServiceImpl;
+import com.yoda.YodaApi.security.jwt.CustomUserDetailsAuthenticationProvider;
+import com.yoda.YodaApi.security.services.CustomUserDetailsServiceImpl;
+//import com.yoda.YodaApi.security.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +27,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 		prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
-	UserDetailsServiceImpl userDetailsService;
+	CustomUserDetailsServiceImpl userDetailsService;
 
 	@Autowired
 	private AuthEntryPointJwt unauthorizedHandler;
@@ -37,7 +39,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-		authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+		authenticationManagerBuilder.authenticationProvider(new CustomUserDetailsAuthenticationProvider(passwordEncoder(), userDetailsService));
+
 	}
 
 	@Bean

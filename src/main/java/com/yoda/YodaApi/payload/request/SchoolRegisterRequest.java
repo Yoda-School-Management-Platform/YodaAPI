@@ -41,15 +41,15 @@ public class SchoolRegisterRequest {
 
     @NotBlank
     @Size(max = 30)
-    private String superuser_name;
+    private String superuserName;
 
     @NotBlank
     @Size(min = 9, max = 128)
-    private String superuser_password;
+    private String superuserPassword;
 
     @NotBlank
     @Size(max = 50)
-    private String superuser_email;
+    private String superuserEmail;
 
     public String getName() {
         return name;
@@ -115,27 +115,27 @@ public class SchoolRegisterRequest {
         this.country = country;
     }
 
-    public String getSuperuser_name() {
-        return superuser_name;
+    public String getSuperuserName() {
+        return superuserName;
     }
 
-    public void setSuperuser_name(String superuser_name) {
-        this.superuser_name = superuser_name;
+    public void setSuperuserName(String superuserName) {
+        this.superuserName = superuserName;
     }
 
-    public String getSuperuser_password() {
-        return superuser_password;
+    public String getSuperuserPassword() {
+        return superuserPassword;
     }
 
-    public void setSuperuser_password(String superuser_password) {
-        this.superuser_password = superuser_password;
+    public void setSuperuserPassword(String superuserPassword) {
+        this.superuserPassword = superuserPassword;
     }
 
-    public String getSuperuser_email() {
-        return superuser_email;
+    public String getSuperuserEmail() {
+        return superuserEmail;
     }
 
-    public void setSuperuser_email(String superuser_email) {
-        this.superuser_email = superuser_email;
+    public void setSuperuserEmail(String superuserEmail) {
+        this.superuserEmail = superuserEmail;
     }
 }

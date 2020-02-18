@@ -36,6 +36,7 @@ public class TestController {
 	}
 
 	@GetMapping("/getRole")
+	@PreAuthorize("permitAll()")
 	public String getRole(HttpServletRequest request){
 		if (request.isUserInRole("APPRENTICE")){
 			return "You are logged in as role: APPRENTICE";

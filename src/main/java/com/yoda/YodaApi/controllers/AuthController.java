@@ -1,5 +1,6 @@
 package com.yoda.YodaApi.controllers;
 
+import com.sun.media.jfxmedia.logging.Logger;
 import com.yoda.YodaApi.models.ERole;
 import com.yoda.YodaApi.models.Role;
 import com.yoda.YodaApi.models.User;
@@ -10,6 +11,7 @@ import com.yoda.YodaApi.payload.response.MessageResponse;
 import com.yoda.YodaApi.repository.RoleRepository;
 import com.yoda.YodaApi.repository.SchoolRepository;
 import com.yoda.YodaApi.repository.UserRepository;
+import com.yoda.YodaApi.security.jwt.CustomAuthenticationToken;
 import com.yoda.YodaApi.security.jwt.JwtUtils;
 import com.yoda.YodaApi.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,7 +58,7 @@ public class AuthController {
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
 		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+				new CustomAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword(),loginRequest.getSchoolName()));
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtUtils.generateJwtToken(authentication);
