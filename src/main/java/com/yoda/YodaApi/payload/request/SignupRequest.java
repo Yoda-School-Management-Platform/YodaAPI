@@ -1,7 +1,5 @@
 package com.yoda.YodaApi.payload.request;
 
-import com.yoda.YodaApi.models.School;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -17,23 +15,11 @@ public class SignupRequest {
     @Email
     private String email;
 
-    private Set<String> role;
+    private Set<String> roles;
     
     @NotBlank
     @Size(min = 6, max = 128)
     private String password;
-
-    @NotBlank
-    @Size(max = 50)
-    private String schoolName;
-
-    public String getSchoolName() {
-        return schoolName;
-    }
-
-    public void setSchoolName(String schoolName) {
-        this.schoolName = schoolName;
-    }
 
     public String getUsername() {
         return username;
@@ -59,11 +45,11 @@ public class SignupRequest {
         this.password = password;
     }
     
-    public Set<String> getRole() {
-      return this.role;
+    public Set<String> getRoles() {
+      return this.roles;
     }
     
-    public void setRole(Set<String> role) {
-      this.role = role;
+    public void setRoles(Set<String> roles) {
+      this.roles = roles;
     }
 }

@@ -22,7 +22,6 @@ public class CustomAuthenticationToken extends UsernamePasswordAuthenticationTok
     }
 
     public String getSchoolName() {
-        System.out.println("exe");
         return schoolName;
 
     }

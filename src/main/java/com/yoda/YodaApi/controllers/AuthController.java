@@ -1,6 +1,5 @@
 package com.yoda.YodaApi.controllers;
 
-import com.sun.media.jfxmedia.logging.Logger;
 import com.yoda.YodaApi.models.ERole;
 import com.yoda.YodaApi.models.Role;
 import com.yoda.YodaApi.models.User;
@@ -18,10 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -81,13 +78,15 @@ public class AuthController {
 	@PreAuthorize("hasRole('SUPERUSER')")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
 
-		if(!schoolRepository.existsByName(signUpRequest.getSchoolName())){
+		UserDetailsImpl authenticatedUserDetailsImpl = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		if(!schoolRepository.existsByName(authenticatedUserDetailsImpl.getSchoolName())){
 			return ResponseEntity
 					.badRequest()
 					.body(new MessageResponse("Error: School doesn't exist!"));
 		}
 
-		if (userRepository.existsByUsernameAndSchool(signUpRequest.getUsername(),schoolRepository.findSchoolByName(signUpRequest.getSchoolName()))) {
+		if (userRepository.existsByUsernameAndSchool(signUpRequest.getUsername(),schoolRepository.findSchoolByName(authenticatedUserDetailsImpl.getSchoolName()))) {
 			return ResponseEntity
 					.badRequest()
 					.body(new MessageResponse("Error: Username is already taken!"));
@@ -103,9 +102,9 @@ public class AuthController {
 		User user = new User(signUpRequest.getUsername(), 
 							 signUpRequest.getEmail(),
 							 encoder.encode(signUpRequest.getPassword()),
-							 schoolRepository.findSchoolByName(signUpRequest.getSchoolName()));
+							 schoolRepository.findSchoolByName(authenticatedUserDetailsImpl.getSchoolName()));
 
-		Set<String> strRoles = signUpRequest.getRole();
+		Set<String> strRoles = signUpRequest.getRoles();
 		Set<Role> roles = new HashSet<>();
 
 
